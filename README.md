@@ -4,7 +4,7 @@ This workflow is in two parts. The first part will convert trimmed forward and r
 ## Part 1
 ## Convert trimmed reads into interleaved format using BBmap
 ### File preparation
-1. Create a text file called "bbmap_samples.txt" with each sample name in a column.
+1. Create a text file called "bbmap_samples.txt" with each sample ID in a column. Use unique sample IDs.
 
 ```
 SAMPLE_ID_1
@@ -12,7 +12,7 @@ SAMPLE_ID_2
 SAMPLE_ID_3
 ```
 
-2. The trimmed reads file names should have the sample name from step 1 followed by "_R1_trimmed.fastq.gz" and "_R2_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2).
+2. The trimmed reads files for each sample should have the sample IDs from step 1 followed by "_R1_trimmed.fastq.gz" and "_R2_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2).
 
 ### Run BBmap on Hydra 
 After preparing the input files (steps 1 and 2 above), run the job below on Hydra.
