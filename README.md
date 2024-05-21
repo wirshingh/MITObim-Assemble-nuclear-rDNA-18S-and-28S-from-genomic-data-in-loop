@@ -58,9 +58,10 @@ echo = `date` job $JOB_NAME done
 ### Run MITObim on Hydra
 1. The MITObim commands in the job file must be modified before submitting to Hydra.
 
-- Full paths are needed for the --readpool (reads data) and --quick (seed sequence) options.
-#Depending on how large you need your final contig, the number of iterations using
-# the --end flag can be changed. Usually, only 4-5 iterations are needed for complete 18S or 28S.
+Full paths are needed for the --readpool (reads data)
+ --quick (seed sequence) options.
+Depending on how large you need your final contig, the number of iterations using
+ the --end flag can be changed. Usually, only 4-5 iterations are needed for complete 18S or 28S.
 #However, more or less can be used.
 
 
