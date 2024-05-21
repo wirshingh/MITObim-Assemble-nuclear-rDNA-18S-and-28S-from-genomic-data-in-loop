@@ -50,5 +50,12 @@ done < bbmap_samples.txt
 echo = `date` job $JOB_NAME done
 ```
 
+## Part 2
+## Use interleaved sequence data created in Part 1 to assemble nuclear rDNA using MITObim
+### File Preparation
+1. Create a text file called "mitobim_samples.txt" with each unique sample ID in a column. If the same sample IDs from Step 1 will be used, simply copy that file and rename it "mitobim_samples.txt".
+
+### Run MITObim on Hydra
+
 
 
