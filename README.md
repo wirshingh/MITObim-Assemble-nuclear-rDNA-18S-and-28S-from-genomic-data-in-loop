@@ -56,6 +56,15 @@ echo = `date` job $JOB_NAME done
 1. Create a text file called "mitobim_samples.txt" with each unique sample ID in a column. If the same sample IDs from Step 1 will be used, simply copy that file and rename it "mitobim_samples.txt".
 
 ### Run MITObim on Hydra
+1. The MITObim commands in the job file must be modified before submitting to Hydra.
+
+- Full paths are needed for the --readpool (reads data) and --quick (seed sequence) options.
+#Depending on how large you need your final contig, the number of iterations using
+# the --end flag can be changed. Usually, only 4-5 iterations are needed for complete 18S or 28S.
+#However, more or less can be used.
+
+
+3. Run the job below in the same directory as as the "mitobim_samples.txt" file (the path to this file can be changed in the job file if desired).
 
 
 
