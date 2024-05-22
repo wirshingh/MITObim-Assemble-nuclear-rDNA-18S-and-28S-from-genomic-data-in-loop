@@ -73,6 +73,8 @@ Full paths are needed for the --readpool (reads data) --quick (seed sequence) co
 
 3. Run the job below in the same directory that contains the "mitobim_samples.txt" file (this path can be modified in the job file if desired). Since full paths are required for the "interleaved_sequences" directory which contains the interleaved sequences and the seed fasta file, they do not have to located in the same directory.
 
+4. When the job completes, there should be a separate folder for each sample labeled ["sample_name"_mitobim]. The final assembled contig will be in the directory with the last assigned interation. 
+
 ```
 # /bin/sh
 # ----------------Parameters---------------------- #
