@@ -3,6 +3,7 @@ This workflow is in two parts. The first part will convert trimmed forward and r
 
 ## Part 1
 ## Convert trimmed reads into interleaved format using BBmap
+https://sourceforge.net/projects/bbmap/
 ### File preparation
 1. Create a text file called "bbmap_samples.txt" with each sample ID in a column. Use unique sample IDs.
 
