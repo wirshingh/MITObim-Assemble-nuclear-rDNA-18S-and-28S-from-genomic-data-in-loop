@@ -71,7 +71,7 @@ Full paths are needed for the --readpool (reads data) --quick (seed sequence) co
 --end "number of iterations" 
 [Note: Depending on how large you need your final contig, the number of iterations can be changed. Usually, about 4-5 iterations are needed for complete 18S or 28S. However, more or less can be used depending on the taxon and data.]
 
-3. Run the job below in the same directory that contains the "mitobim_samples.txt" file, the "interleaved_sequences" directory which contains the interleaved sequences, and the seed fasta file.
+3. Run the job below in the same directory that contains the "mitobim_samples.txt" file (this path can be modified in the job file if desired). Since full paths are required for the "interleaved_sequences" directory which contains the interleaved sequences and the seed fasta file, they do not have to located in the same directory.
 
 ```
 # /bin/sh
