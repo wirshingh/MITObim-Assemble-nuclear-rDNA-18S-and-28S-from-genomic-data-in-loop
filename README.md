@@ -112,7 +112,7 @@ echo = `date` job $JOB_NAME done
 ```
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
-### Extract final fasta files and copy them to a separate directory
+### Extract final fasta files and log files, and copy them to a separate directory
 1. In the shell script below, modify the path "./${mitobim_results}/iteration[DIGIT OF LAST ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs" by including a digit for "DIGIT OF LAST ITERATION". This is the directory of the last interation of MITObim that contains the final contig.
 
 2. Save the script as "copy_mitobim_results.sh" and run the shell script (sh copy_mitobim_results.sh) in the same directory as the [sample_mitobim] directories from the output of MITObim from step 2. Explanations of the script steps are given in the text of the script.
@@ -130,9 +130,39 @@ do
 
 # Prints the name of each file/directory being processed
     echo "Processing file: $mitobim_results"  
-# Copies files matching the pattern to the mitobim_final_contigs directory
+# Copies files matching the pattern to the mitobim_final_contigs directory. Change "digit of last iteration" to appropriate value.
     cp ./${mitobim_results}/iteration[digit of last interation]/*_noIUPAC.fasta ./mitobim_final_contigs  
     cp ./${mitobim_results}/log_* ./mitobim_final_contigs  
+done
+```
+### Rename the internal sample names of the copied final fasta files with sample IDs and copy them to a new directory.
+1. Copy and save the shell script below as "internal_rename_mitobim_results.sh". Run the script (sh internal_rename_mitobim_results.sh) in the same directory as the copied _noIUPAC.fasta files. Explanations of the script steps are given in the text of the script.
+
+2. Fasta files with internal names changed will be saved in a directory called "mitobim_final_contigs_internalrename"
+   
+```
+#!/bin/sh
+
+# Creates a directory named mitobim_final_contigs_internalrename
+mkdir -p mitobim_final_contigs_internalrename  
+
+# Copy all files ending with _noIUPAC.fasta into the newly created directory
+cp ./*_noIUPAC.fasta ./mitobim_final_contigs_internalrename
+    
+# Navigate into the newly created directory
+cd mitobim_final_contigs_internalrename
+
+# Iterate over files in the directory
+for mitobim_internalrename in ./*_noIUPAC.fasta 
+do
+    echo "Processing file: $mitobim_internalrename"  
+
+    # Extract filename without extension
+    filename=$(basename "$mitobim_internalrename" .fasta)
+
+    # Perform substitution and deletion using awk
+    awk -v fname="$filename" '{gsub(/cladiella_28S_genbank_consensus_maptoref/, fname); gsub(/_bb/, ""); print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
+
 done
 ```
 
