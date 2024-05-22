@@ -12,7 +12,7 @@ SAMPLE_ID_2
 SAMPLE_ID_3
 ```
 
-2. The trimmed reads files for each sample should have the sample IDs from step 1 followed by "_R1_trimmed.fastq.gz" and "_R2_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2).
+2. The trimmed reads file names for each sample should have the sample IDs from step 1 followed by "_R1_trimmed.fastq.gz" and "_R2_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2).
 
 ### Run BBmap on Hydra 
 After preparing the input files (steps 1 and 2 above), run the job below on Hydra in the same directory as the trimmed reads files and the bbmap_samples.txt file
