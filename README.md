@@ -55,17 +55,61 @@ echo = `date` job $JOB_NAME done
 ### File Preparation
 1. Create a text file called "mitobim_samples.txt" with each unique sample ID in a column. If the same sample IDs from Step 1 will be used, simply copy that file and rename it "mitobim_samples.txt".
 
+2. Create a fasta file with the seed used for assembling the gene of interest. For nuclear ribosomal genes, partial 18S or 28S sequences may be used. Depending on the taxon, using either 18S or 28S MITObim may assemble the entire nuclear ribosomal operon, or may just assemble the single gene from the seed. 
+ 
 ### Run MITObim on Hydra
-1. The MITObim commands in the job file must be modified before submitting to Hydra.
+1. The following MITObim commands in the job file must be modified before submitting to Hydra.
 
-Full paths are needed for the --readpool (reads data)
- --quick (seed sequence) options.
-Depending on how large you need your final contig, the number of iterations using
- the --end flag can be changed. Usually, only 4-5 iterations are needed for complete 18S or 28S.
-#However, more or less can be used.
+-ref "name of the project"
+
+Full paths are needed for the --readpool (reads data) --quick (seed sequence) commands.
+
+--readpool "full path"/interleaved_sequences/${SAMPLE}_interleaved.fastq.gz 
+
+--quick "full path to to fasta file with seed"
+
+--end "number of iterations" 
+[Note: Depending on how large you need your final contig, the number of iterations can be changed. Usually, about 4-5 iterations are needed for complete 18S or 28S. However, more or less can be used depending on the taxon and data.]
+
+3. Run the job below in the same directory that contains the "mitobim_samples.txt" file, the "interleaved_sequences" directory which contains the interleaved sequences, and the seed fasta file.
+
+```
+# /bin/sh
+# ----------------Parameters---------------------- #
+#$ -S /bin/sh
+#$ -pe mthread 3
+#$ -q mThC.q
+#$ -l mres=18G,h_data=6G,h_vmem=6G
+#$ -cwd
+#$ -j y
+#$ -N mitobim_loop.job
+#$ -o mitobim.log
+#
+# ----------------Modules------------------------- #
+module load ~/modulefiles/miniconda
+source activate mitobim
+# ----------------Your Commands------------------- #
+#
+echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
+echo + NSLOTS = $NSLOTS
+#
+cat ./mitobim_samples.txt | while read SAMPLE
+do
+mkdir "${SAMPLE}_mitobim"
+cd "${SAMPLE}_mitobim" || exit
+MITObim.pl \
+-sample "${SAMPLE}" \
+-ref 28SseedCladiella \
+--readpool /scratch/nmnh_corals/projects/cladiellatypes/data/trimmed_sequences/interleaved_sequences/${SAMPLE}_interleaved.fastq.gz \
+--quick /scratch/nmnh_corals/projects/cladiellatypes/data/trimmed_sequences/cladiella_28S_seed.fasta \
+--end 4 --pair --clean &> "log_${SAMPLE}"
+cd ..
+done
+#
+echo = `date` job $JOB_NAME done
+```
 
 
-3. Run the job below in the same directory as as the "mitobim_samples.txt" file (the path to this file can be changed in the job file if desired).
 
 
 
