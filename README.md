@@ -104,8 +104,8 @@ cd "${SAMPLE}_mitobim" || exit
 MITObim.pl \
 -sample "${SAMPLE}" \
 -ref name_of_project \
---readpool /scratch/nmnh_corals/projects/cladiellatypes/data/trimmed_sequences/interleaved_sequences/${SAMPLE}_interleaved.fastq.gz \
---quick /scratch/nmnh_corals/projects/cladiellatypes/data/trimmed_sequences/cladiella_28S_seed.fasta \
+--readpool "full path to"/interleaved_sequences/${SAMPLE}_interleaved.fastq.gz \
+--quick "full path to seed fasta file" \
 --end 4 --pair --clean &> "log_${SAMPLE}"
 cd ..
 done
