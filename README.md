@@ -140,9 +140,13 @@ do
 done
 ```
 ### Rename the internal sample names of the copied final fasta files with sample IDs and copy them to a new directory.
-1. Copy and save the shell script below as "internal_rename_mitobim_results.sh". Run the script (sh internal_rename_mitobim_results.sh) in the directory "mitobim_final_contigs" generated in the previous step. Explanations of the script steps are given in the text of the script.
+1. Copy and save the shell script below as "internal_rename_mitobim_results.sh".
 
-2. Fasta files with internal names changed will be saved in a directory called "mitobim_final_contigs_internalrename"
+2. In the awk command of the script (last command of script), inset the file name of the seed fasta used for the MITObim run where it says "FASTA_FILE_NAME_OF_SEED". 
+
+3. Run the script (sh internal_rename_mitobim_results.sh) in the directory "mitobim_final_contigs" generated in the previous step. Explanations of the script steps are given in the text of the script.
+
+4. Fasta files with internal names changed will be saved in a directory called "mitobim_final_contigs_internalrename"
    
 ```
 #!/bin/sh
@@ -164,8 +168,8 @@ do
     # Extract filename without extension
     filename=$(basename "$mitobim_internalrename" .fasta)
 
-    # Perform substitution and deletion using awk
-    awk -v fname="$filename" '{gsub(/cladiella_28S_genbank_consensus_maptoref/, fname); gsub(/_bb/, ""); print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
+    # Perform substitution and deletion using awk - NOTE - Change "FASTA_FILE_NAME_OF_SEED" to the file name used for the seed in the MITObim run
+    awk -v fname="$filename" '{gsub(/FASTA_FILE_NAME_OF_SEED/, fname); gsub(/_bb/, ""); print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
 
 done
 ```
