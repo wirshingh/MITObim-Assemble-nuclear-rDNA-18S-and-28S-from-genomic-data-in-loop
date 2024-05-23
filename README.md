@@ -142,7 +142,7 @@ done
 ### Rename the internal sample names of the copied final fasta files with sample IDs and copy them to a new directory.
 1. Copy and save the shell script below as "internal_rename_mitobim_results.sh".
 
-2. In the awk command of the script (last command of script), inset the name of the seed used for the MITObim run where it says "FASTA_NAME_OF_SEED". 
+2. In the awk command of the script (last command of script), insert the name of the seed used for the MITObim run where it says "FASTA_NAME_OF_SEED". 
 
 3. Run the script (sh internal_rename_mitobim_results.sh) in the directory "mitobim_final_contigs" generated in the previous step. Explanations of the script steps are given in the text of the script.
 
