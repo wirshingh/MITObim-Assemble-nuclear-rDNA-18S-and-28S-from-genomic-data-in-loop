@@ -115,7 +115,7 @@ echo = `date` job $JOB_NAME done
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
 ### Extract final fasta files and log files, and copy them to a separate directory
-1. In the shell script below, modify the path "./${mitobim_results}/iteration[DIGIT OF LAST ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs" by including a digit for "DIGIT OF LAST ITERATION". This digit found in the directory name of the last interation of MITObim that contains the final contig.
+1. In the shell script below, modify the path "./${mitobim_results}/iteration[DIGIT OF LAST ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs" by including a digit for "DIGIT OF LAST ITERATION". This digit is found in the directory name of the last interation of MITObim that contains the final contig.
 
 2. Save the script as "copy_mitobim_results.sh" and run the shell script (sh copy_mitobim_results.sh) in the same directory as the [sample_mitobim] directories from the output of MITObim from step 2. Explanations of the script steps are given in the text of the script.
 
