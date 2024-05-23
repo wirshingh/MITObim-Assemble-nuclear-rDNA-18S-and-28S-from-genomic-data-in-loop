@@ -135,7 +135,7 @@ do
 # Prints the name of each file/directory being processed
     echo "Processing file: $mitobim_results"  
 # Copies files matching the pattern to the mitobim_final_contigs directory. Change "digit of last iteration" to appropriate value.
-    cp ./${mitobim_results}/iteration[digit of last interation]/*_noIUPAC.fasta ./mitobim_final_contigs  
+    cp ./${mitobim_results}/iteration[DIGIT_OF_LAST_OTERATION]/*_noIUPAC.fasta ./mitobim_final_contigs  
     cp ./${mitobim_results}/log_* ./mitobim_final_contigs  
 done
 ```
