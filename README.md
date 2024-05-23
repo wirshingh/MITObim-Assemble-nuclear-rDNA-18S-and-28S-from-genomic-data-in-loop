@@ -1,4 +1,4 @@
-# Assemble nuclear rDNA (18S and 28S) from genomic data using BBmap and MITObim using a Loop
+# Assemble nuclear rDNA (18S and 28S) from genomic data using BBmap and MITObim using a loop
 This workflow is in two parts. The first part will convert trimmed forward and reverse reads into a single interleaved file uisng BBmap. The second part will use the interleavd data and a user provided seed to assemble nuclear ribosomal sequences using MITObim.
 
 ## Part 1
