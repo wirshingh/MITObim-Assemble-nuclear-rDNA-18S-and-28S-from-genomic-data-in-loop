@@ -140,7 +140,7 @@ do
 done
 ```
 ### Rename the internal sample names of the copied final fasta files with sample IDs and copy them to a new directory.
-1. Copy and save the shell script below as "internal_rename_mitobim_results.sh". Run the script (sh internal_rename_mitobim_results.sh) in the same directory as the copied "_noIUPAC.fasta" files (mitobim_final_contigs). Explanations of the script steps are given in the text of the script.
+1. Copy and save the shell script below as "internal_rename_mitobim_results.sh". Run the script (sh internal_rename_mitobim_results.sh) in the directory "mitobim_final_contigs" generated in the previous step. Explanations of the script steps are given in the text of the script.
 
 2. Fasta files with internal names changed will be saved in a directory called "mitobim_final_contigs_internalrename"
    
