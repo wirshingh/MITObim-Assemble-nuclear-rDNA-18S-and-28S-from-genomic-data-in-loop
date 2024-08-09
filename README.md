@@ -164,7 +164,7 @@ mv ./mitobim_final_contigs_temp/log_* ./mitobim_logs_and_final_contigs
 
 rm -r ./mitobim_final_contigs_temp
 
-echo "Run completed. Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'. Check for any error/warning outputs"
+echo "Run completed. Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'. Check for any errors/warnings printed to screen"
 
 exit
 
