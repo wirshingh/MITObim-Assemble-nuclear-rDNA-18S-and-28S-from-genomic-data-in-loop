@@ -114,10 +114,10 @@ echo = `date` job $JOB_NAME done
 ```
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
-### For this script to work, lines 14 and 33 of the script below MUST be modified by the user
+### For this script to work, lines 14 and 32 of the script below MUST be modified by the user
 1. In line 14 the shell script below, modify the text "[DIGIT OF LAST ITERATION]" with the total number of iterations run (usually 4 or 5 for nuclear ribosomal genes).
 
-2. In line 33 of the script below, modfy the awk command text "[FASTA_NAME_OF_SEED]" with the name of the seed used for the MITObim run. This is simply the name after the ">" of the fasta file used for the seed. If there are spaces in the name, just use the text up to the first space.
+2. In line 32 of the script below, modfy the awk command text "[FASTA_NAME_OF_SEED]" with the name of the seed used for the MITObim run. This is simply the name after the ">" of the fasta file used for the seed. If there are spaces in the name, just use the text up to the first space.
 
 3. Save the script as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the same directory as the "[sample]_mitobim" directories from the output of MITObim from part 2. Explanations of the script steps are given in the text of the script.
 
@@ -150,12 +150,11 @@ cp ./mitobim_final_contigs_temp/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
 # Iterate over files in the directory
 for mitobim_internalrename in ./mitobim_logs_and_final_contigs/*_noIUPAC.fasta 
 do
-    echo "Processing file: $mitobim_internalrename"  
 
     # Extract filename without extension
     filename=$(basename "$mitobim_internalrename" .fasta)
 
-    # Perform substitution and deletion using awk - NOTE - Change "FASTA_NAME_OF_SEED" to the name used for the seed in the MITObim run
+    # Perform substitution and deletion using awk - NOTE - Change "FASTA_NAME_OF_SEED" to the sample name used after the ">" in the fasta file for the seed in the MITObim run
     awk -v fname="$filename" '{gsub(/[FASTA_NAME_OF_SEED]/, fname); gsub(/_bb/, ""); print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
 
 done
@@ -164,7 +163,9 @@ mv ./mitobim_final_contigs_temp/log_* ./mitobim_logs_and_final_contigs
 
 rm -r ./mitobim_final_contigs_temp
 
-echo "Run completed. Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'. Check for any errors/warnings printed to screen"
+echo "Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'"
+echo "Check for any errors/warnings printed to screen"
+echo "Done"
 
 exit
 
