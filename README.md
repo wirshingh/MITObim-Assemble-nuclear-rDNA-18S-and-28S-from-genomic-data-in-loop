@@ -114,7 +114,7 @@ echo = `date` job $JOB_NAME done
 ```
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
-### For this script to work, lines 14 and 33 MUST be modified by the user
+### For this script to work, lines 14 and 33 of the script below MUST be modified by the user
 1. In line 14 the shell script below, modify the path "./${mitobim_results}/iteration[DIGIT OF LAST ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs" by including a digit for "DIGIT OF LAST ITERATION". This digit corresponds to the total number of iterations run (usually 4 or 5 for nuclear ribosomal genes).
 
 2. In line 33 of the script, modfy the awk command text "FASTA_NAME_OF_SEED" with the name of the seed used for the MITObim run. This is simply the name after the ">" of the fasta file used for the seed. If there are spaces in the name, just use the text up to the first space.
