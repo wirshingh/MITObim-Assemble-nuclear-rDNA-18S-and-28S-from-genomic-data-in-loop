@@ -119,7 +119,7 @@ echo = `date` job $JOB_NAME done
 
 2. In line 32 of the script below, modfy the awk command text "[FASTA_NAME_OF_SEED]" with the name of the seed used for the MITObim run. This is simply the name after the ">" of the fasta file used for the seed. If there are spaces in the name, just use the text up to the first space.
 
-3. Save the script as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the same directory as the "[sample]_mitobim" directories from the output of MITObim from part 2. Explanations of the script steps are given in the text of the script.
+3. Save the script as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the same directory as the "[sample]_mitobim" directories from the output of MITObim from Part 2. Explanations of the script steps are given in the text of the script.
 
 4. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
 
