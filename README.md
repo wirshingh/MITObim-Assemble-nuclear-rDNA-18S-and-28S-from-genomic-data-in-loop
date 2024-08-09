@@ -114,18 +114,20 @@ echo = `date` job $JOB_NAME done
 ```
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
-### Extract final fasta files and log files, and copy them to a separate directory
-1. In the shell script below, modify the path "./${mitobim_results}/iteration[DIGIT OF LAST ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs" by including a digit for "DIGIT OF LAST ITERATION". This digit is found in the directory name of the last interation of MITObim that contains the final contig.
+### For this script to work, lines 14 and 33 MUST be modified by the user
+1. In line 14 the shell script below, modify the path "./${mitobim_results}/iteration[DIGIT OF LAST ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs" by including a digit for "DIGIT OF LAST ITERATION". This digit corresponds to the total number of iterations run (usually 4 or 5 for nuclear ribosomal genes).
 
-2. Save the script as "copy_mitobim_results.sh" and run the shell script (sh copy_mitobim_results.sh) in the same directory as the [sample_mitobim] directories from the output of MITObim from step 2. Explanations of the script steps are given in the text of the script.
+2. In line 33 of the script, modfy the awk command text "FASTA_NAME_OF_SEED" with the name of the seed used for the MITObim run. This is simply the name after the ">" of the fasta file used for the seed. If there are spaces in the name, just use the text up to the first space.
 
-3. Final fasta files and log files will be copied to a directory called "mitobim_final_contigs"
+3. Save the script as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the same directory as the "[sample]_mitobim" directories from the output of MITObim from part 2. Explanations of the script steps are given in the text of the script.
+
+4. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
 
 ```
 #!/bin/sh
 
 # Creates a directory named mitobim_final_contigs
-mkdir mitobim_final_contigs  
+mkdir mitobim_final_contigs_temp 
 
 # Iterates over files/directories with names ending in _mitobim in the current directory
 for mitobim_results in ./*_mitobim  
@@ -135,35 +137,18 @@ do
 # Prints the name of each file/directory being processed
     echo "Processing file: $mitobim_results"  
 # Copies files matching the pattern to the mitobim_final_contigs directory. Change "digit of last iteration" to appropriate value.
-    cp ./${mitobim_results}/iteration[DIGIT_OF_LAST_OTERATION]/*_noIUPAC.fasta ./mitobim_final_contigs  
-    cp ./${mitobim_results}/log_* ./mitobim_final_contigs  
+    cp ./${mitobim_results}/iteration[DIGIT_OF_LAST_ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs_temp  
+    cp ./${mitobim_results}/log_* ./mitobim_final_contigs_temp
 done
-```
-### Rename the internal sample names of the copied final fasta files with sample IDs and copy them to a new directory.
-The internal names of the final MITObim contigs will have a long name after the ">" that will start with the name used in the seed followed by several reapeats of "_bb". This script will change the intenal name to the sample IDs used and remove the repeats of "_bb"s.
-
-1. Copy and save the shell script below as "internal_rename_mitobim_results.sh".
-
-2. In the awk command of the script (last command of script), insert the name of the seed used for the MITObim run where it says "FASTA_NAME_OF_SEED". This is simply the name after the ">" of the seed used.
-
-3. Run the script (sh internal_rename_mitobim_results.sh) in the directory "mitobim_final_contigs" generated in the previous step. Explanations of the script steps are given in the text of the script.
-
-4. Fasta files with internal names changed will be saved in a directory called "mitobim_final_contigs_internalrename"
-   
-```
-#!/bin/sh
 
 # Creates a directory named mitobim_final_contigs_internalrename
-mkdir -p mitobim_final_contigs_internalrename  
+mkdir -p mitobim_logs_and_final_contigs
 
 # Copy all files ending with _noIUPAC.fasta into the newly created directory
-cp ./*_noIUPAC.fasta ./mitobim_final_contigs_internalrename
+cp ./mitobim_final_contigs_temp/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
     
-# Navigate into the newly created directory
-cd mitobim_final_contigs_internalrename
-
 # Iterate over files in the directory
-for mitobim_internalrename in ./*_noIUPAC.fasta 
+for mitobim_internalrename in ./mitobim_logs_and_final_contigs/*_noIUPAC.fasta 
 do
     echo "Processing file: $mitobim_internalrename"  
 
@@ -174,9 +159,14 @@ do
     awk -v fname="$filename" '{gsub(/FASTA_NAME_OF_SEED/, fname); gsub(/_bb/, ""); print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
 
 done
+
+mv ./mitobim_final_contigs_temp/log_* ./mitobim_logs_and_final_contigs
+
+rm -r ./mitobim_final_contigs_temp
+
+echo "Run completed. Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'. Check for any error/warning outputs"
+
+exit
+
 ```
-
-
-
-
 
