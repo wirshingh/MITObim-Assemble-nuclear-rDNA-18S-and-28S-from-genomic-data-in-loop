@@ -114,6 +114,7 @@ echo = `date` job $JOB_NAME done
 ```
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
+When the loop is complete, the final contigs and log files of each sample will be 
 ### For this script to work, lines 14 and 32 of the script below MUST be modified by the user
 1. In line 14 the shell script below, modify the text "[DIGIT OF LAST ITERATION]" with the number of the last iteration run. This is the number entered for the flag "--end" in Part 2. For example, "iteration4".
 
