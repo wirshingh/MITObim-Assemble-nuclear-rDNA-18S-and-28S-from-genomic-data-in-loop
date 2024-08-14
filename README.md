@@ -115,54 +115,39 @@ echo = `date` job $JOB_NAME done
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
 When the MITObim loop is complete (Part 2), the final contigs and log files of each sample will be in separate directories. This script will copy those files into a single directory.
-### For this script to work, lines 14 and 32 of the script below MUST be modified by the user
-1. In line 14 the shell script below, modify the text "[DIGIT OF LAST ITERATION]" with the number of the last iteration run. This is the number entered for the flag "--end" in Part 2. For example, "iteration4".
+### For this script to work, line 14 of the script below MUST be modified by the user
+1. In line 14 the shell script below, replace the text "[x]" with the number of the last iteration run. This is the number entered for the flag "--end" in Part 2. For example, "iteration4".
 
-2. In line 32 of the script below, modfy the awk command text "[FASTA_NAME_OF_SEED]" with the name of the seed used for the MITObim run. This is simply the name after the ">" of the fasta file used for the seed. If there are spaces in the name, just use the text up to the first space.
-
-3. Save the script as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the same directory as the "[sample]_mitobim" directories from the output of MITObim from Part 2. Explanations of the script steps are given in the text of the script.
+2. Save the script as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the same directory as the "[sample]_mitobim" directories from the output of MITObim from Part 2. Explanations of the script steps are given in the text of the script.
 
 4. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
 
 ```
 #!/bin/sh
 
-# Creates a directory named mitobim_final_contigs
-mkdir mitobim_final_contigs_temp 
+# Run this script in the same directory that contains the final mitobim output files (*_mitobim)
+# Creates a directory named mitobim_logs_and_final_contigs
+mkdir -p mitobim_logs_and_final_contigs 
 
 # Iterates over files/directories with names ending in _mitobim in the current directory
-for mitobim_results in ./*_mitobim  
+for mitobim_rename in *_mitobim; do
+    # Prints the name of each file/directory being processed
+    echo "Processing file: $mitobim_rename"
 
-do
-
-# Prints the name of each file/directory being processed
-    echo "Processing file: $mitobim_results"  
-# Copies files matching the pattern to the mitobim_final_contigs directory. Change "digit of last iteration" to appropriate value.
-    cp ./${mitobim_results}/iteration[DIGIT_OF_LAST_ITERATION]/*_noIUPAC.fasta ./mitobim_final_contigs_temp  
-    cp ./${mitobim_results}/log_* ./mitobim_final_contigs_temp
+    # Copies files matching the pattern to the mitobim_logs_and_final_contigs directory
+    # Replace [x] with the actual digit of the last iteration number. e.g., "iteration4"
+    cp ./${mitobim_rename}/iteration[x]/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
+    cp ./${mitobim_rename}/log_* ./mitobim_logs_and_final_contigs
 done
 
-# Creates a directory named mitobim_logs_and_final_contigs
-mkdir -p mitobim_logs_and_final_contigs
-
-# Copy all files ending with _noIUPAC.fasta into the newly created directory
-cp ./mitobim_final_contigs_temp/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
-    
 # Iterate over files in the directory
-for mitobim_internalrename in ./mitobim_logs_and_final_contigs/*_noIUPAC.fasta 
-do
-
+for mitobim_internalrename in ./mitobim_logs_and_final_contigs/*_noIUPAC.fasta; do
     # Extract filename without extension
     filename=$(basename "$mitobim_internalrename" .fasta)
 
-    # Perform substitution and deletion using awk - NOTE - Change "FASTA_NAME_OF_SEED" to the sample name used after the ">" in the fasta file for the seed in the MITObim run
-    awk -v fname="$filename" '{gsub(/[FASTA_NAME_OF_SEED]/, fname); gsub(/_bb/, ""); print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
-
+    # Perform internal rename substitution and deletion using awk
+    awk -v fname="$filename" -F '>' '{if (NF > 1) print $1 ">" fname; else print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
 done
-
-mv ./mitobim_final_contigs_temp/log_* ./mitobim_logs_and_final_contigs
-
-rm -r ./mitobim_final_contigs_temp
 
 echo "Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'"
 echo "Check for any errors/warnings printed to screen"
