@@ -114,7 +114,7 @@ echo = `date` job $JOB_NAME done
 ```
 
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
-When the MITObim loop is complete (Part 2), the final contigs and log files of each sample will be in separate directories. This script will copy those files into a single directory.
+When the MITObim loop is complete (Part 2), the final contigs and log files of each sample will be in separate directories. This script will copy those files into a single directory and rename the final contig fasta files with SampleIDs.
 ### For this script to work, line 14 of the script below MUST be modified by the user
 1. In line 14 the shell script below, replace the text "[x]" with the number of the last iteration run. This is the number entered for the flag "--end" in Part 2. For example, "iteration4".
 
