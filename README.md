@@ -142,7 +142,7 @@ do
     cp ./${mitobim_results}/log_* ./mitobim_final_contigs_temp
 done
 
-# Creates a directory named mitobim_final_contigs_internalrename
+# Creates a directory named mitobim_logs_and_final_contigs
 mkdir -p mitobim_logs_and_final_contigs
 
 # Copy all files ending with _noIUPAC.fasta into the newly created directory
