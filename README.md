@@ -120,9 +120,7 @@ When the MITObim loop is complete (Part 2), the final contigs and log files of e
 
 1. Save the script below as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the "mitobim_results" directory created in Part 2. Explanations of the script steps are given in the text of the script.
 
-#### Note: If the number of iterations was changed from the default 4 in Part 2, "iteration4" must be changed in the script below in line 14.
-
-4. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
+2. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
 
 ```
 #!/bin/sh
@@ -137,8 +135,7 @@ for mitobim_rename in *_mitobim; do
     echo "Processing file: $mitobim_rename"
 
     # Copies files matching the pattern to the mitobim_logs_and_final_contigs directory
-    # Replace [x] with the actual digit of the last iteration number. e.g., "iteration4"
-    cp ./${mitobim_rename}/iteration4/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
+    cp ./${mitobim_rename}/iteration*/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
     cp ./${mitobim_rename}/log_* ./mitobim_logs_and_final_contigs
 done
 
