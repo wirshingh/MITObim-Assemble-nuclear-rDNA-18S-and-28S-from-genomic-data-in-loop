@@ -60,7 +60,7 @@ change this to the name of your project.
 
 --readpool "full path to"/interleaved_sequences/${SAMPLE}_interleaved.fastq.gz 
 
-change "full path" with the path to the interleaved_sequences directory.
+change "full path to" with the path to the interleaved_sequences directory.
 
 --quick "full path to to fasta file with seed" 
 
