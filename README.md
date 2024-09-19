@@ -68,7 +68,7 @@ paste the full path to the directory that contains the fasta file with the 18S o
 
 --end 4 
 
-#### [Note: Depending on how large you want your final contig, the number of iterations (--end) can be changed. Usually, 4 iterations is sufficient for complete 18S or 28S. However, more or less can be used depending on the taxon and data. The default is set to 4 here].
+#### Note: Depending on how large you want your final contig, the number of iterations (--end) can be changed. Usually, 4 iterations is sufficient for complete 18S or 28S. However, more or less can be used depending on the taxon and data. The default is set to 4 here.
 
 Save the modified job below as "mitobim_loop.job" in the same directory that contains the trimmed reads files and submit the job on Hydra (qsub mitobim_loop.job).
 
@@ -119,6 +119,8 @@ echo = `date` job $JOB_NAME done
 When the MITObim loop is complete (Part 2), the final contigs and log files of each sample will be in separate directories. This script will copy those files into a single directory and rename the final contig fasta files with SampleIDs.
 
 1. Save the script below as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the "mitobim_results" directory created in Part 2. Explanations of the script steps are given in the text of the script.
+
+#### Note: If the number of iterations was changed from the default 4 in Part 2, "iteration4" must be changed in the script below in line 14.
 
 4. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
 
