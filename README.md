@@ -16,9 +16,9 @@ When complete, the interleaved sequence files will be in a directory called "int
 # /bin/sh
 # ----------------Parameters---------------------- #
 #$ -S /bin/sh
-#$ -pe mthread 3
+#$ -pe mthread 2
 #$ -q sThC.q
-#$ -l mres=24G,h_data=8G,h_vmem=8G
+#$ -l mres=6G,h_data=3G,h_vmem=3G
 #$ -cwd
 #$ -j y
 #$ -N bbmap_interleaved
@@ -79,9 +79,9 @@ When the job completes, there should be a separate folder labeled "mitobim_resul
 # /bin/sh
 # ----------------Parameters---------------------- #
 #$ -S /bin/sh
-#$ -pe mthread 3
+#$ -pe mthread 2
 #$ -q mThC.q
-#$ -l mres=18G,h_data=6G,h_vmem=6G
+#$ -l mres=6G,h_data=3G,h_vmem=3G
 #$ -cwd
 #$ -j y
 #$ -N mitobim_loop.job
