@@ -79,9 +79,9 @@ When the job completes, there should be a separate folder labeled "mitobim_resul
 # /bin/sh
 # ----------------Parameters---------------------- #
 #$ -S /bin/sh
-#$ -pe mthread 2
+#$ -pe mthread 3
 #$ -q mThC.q
-#$ -l mres=6G,h_data=3G,h_vmem=3G
+#$ -l mres=12G,h_data=4G,h_vmem=4G
 #$ -cwd
 #$ -j y
 #$ -N mitobim_loop.job
