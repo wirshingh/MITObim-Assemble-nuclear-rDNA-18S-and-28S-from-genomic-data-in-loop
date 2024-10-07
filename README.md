@@ -54,7 +54,7 @@ Create a fasta file (.fasta) with the seed used for assembling the gene of inter
 ### Run MITObim on Hydra
 #### NOTE: The following MITObim commands in the job file must be modified before submitting to Hydra.
 
--ref [name of the project]
+-ref name_of_project 
 
 change this to the name of your project.
 
@@ -104,7 +104,7 @@ mv ./"${SAMPLENAME}_mitobim" ./mitobim_results
 cd ./mitobim_results/"${SAMPLENAME}_mitobim" || exit
 MITObim.pl \
 -sample "${SAMPLENAME}" \
--ref [name of project] \
+-ref name_of_project \
 --readpool "full path to"/interleaved_sequences/${SAMPLENAME}_interleaved.fastq.gz \
 --quick "full path to to fasta file with seed" \
 --end 4 --pair --clean &> "log_${SAMPLENAME}"
