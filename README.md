@@ -82,7 +82,7 @@ paste the full path to the directory that contains the fasta file with the 18S o
 
 Save the modified job below as "mitobim_loop.job" and submit the job on Hydra (qsub mitobim_loop.job).
 
-When the job completes, there should be a separate folder labeled "mitobim_results" in the same directory as the job file. The final results for each sample will be in this directory. This final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". 
+When the job completes, there should be a separate folder labeled "mitobim_results" in the same directory as the job file. The final results for each sample will be in this directory. This final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". To rename these files with the sample IDs, go to part 3.
 
 
 ```
