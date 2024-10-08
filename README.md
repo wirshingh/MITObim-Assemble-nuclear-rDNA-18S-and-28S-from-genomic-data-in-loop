@@ -1,5 +1,5 @@
 # Assemble nuclear rDNA (18S and 28S) from genomic data using BBmap and MITObim using a loop
-This workflow is in two parts. The first part will convert trimmed forward and reverse reads into a single interleaved file uisng BBmap. The second part will use the interleavd data and a user provided seed to assemble nuclear ribosomal sequences using MITObim.
+This workflow is in three parts. The first part will convert trimmed forward and reverse reads into a single interleaved file uisng BBmap. The second part will use the interleavd data and a user provided seed to assemble nuclear ribosomal sequences using MITObim. The third part will rename final conig files with sample IDs and pool them with the log files for each sample. 
 
 ## Part 1
 ## Convert trimmed reads into interleaved format using BBmap
@@ -70,11 +70,11 @@ Paste full path to the directory that contains the interleaved sequences after t
 
 -ref name_of_project 
 
-change this to the name of your project.
+change "name_of_project" to the name of your project.
 
 --quick 
 
-paste the full path to the directory that contains the fasta file with the 18S or 28S seed.
+After "--quick" paste the full path to the directory that contains the fasta file with the 18S or 28S seed.
 
 --end 4 
 
@@ -82,7 +82,7 @@ paste the full path to the directory that contains the fasta file with the 18S o
 
 Save the modified job below as "mitobim_loop.job" and submit the job on Hydra (qsub mitobim_loop.job).
 
-When the job completes, there should be a separate folder labeled "mitobim_results" in the same directory as the job file. The final results for each sample will be in this directory. This final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". To rename these files with the sample IDs, go to part 3.
+When the job completes, there should be a separate folder labeled "mitobim_results" in the same directory as the job file. The final results for each sample will be in this directory. This final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". To rename and consolodate these files with the sample IDs, go to part 3.
 
 
 ```
@@ -139,7 +139,7 @@ echo = `date` job $JOB_NAME done
 ## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
 When the MITObim loop is complete (Part 2), the final contigs and log files of each sample will be in separate directories. This script will copy those files into a single directory and rename the final contig fasta files with SampleIDs.
 
-1. Save the script below as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the "mitobim_results" directory created in Part 2. Explanations of the script steps are given in the text of the script.
+1. Save the script below as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the directory that contains the "mitobim_results" directory created in Part 2. Explanations of the script steps are given in the text of the script.
 
 2. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
 
