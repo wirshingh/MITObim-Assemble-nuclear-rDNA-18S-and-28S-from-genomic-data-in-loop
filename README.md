@@ -169,7 +169,7 @@ for mitobim_internalrename in ./mitobim_final_renamed_contigs_and_logs/*_noIUPAC
     awk -v fname="$filename" -F '>' '{if (NF > 1) print $1 ">" fname; else print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
 done
 
-echo "Final renamed contigs and logs should be in directory named 'mitobim_logs_and_final_contigs'"
+echo "Final renamed contigs and logs should be in directory named 'mitobim_final_renamed_contigs_and_logs'"
 echo "Check for any errors/warnings printed to screen"
 echo "Done"
 
