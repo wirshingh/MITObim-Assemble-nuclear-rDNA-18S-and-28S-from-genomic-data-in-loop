@@ -5,10 +5,11 @@ This workflow is in two parts. The first part will convert trimmed forward and r
 ## Convert trimmed reads into interleaved format using BBmap
 Link to BBmap site - https://sourceforge.net/projects/bbmap/
 ### File preparation
-The trimmed reads file names must end in "_R1_PE_trimmed.fastq.gz" and "_R2_PE_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2) for these scripts to work. The scripts will utilize whatever text is in front of either "_R1(orR2)_PE_trimmed.fastq.gz" as the sample name. If your trimmed reads file names end with different text, the job file may also be modified accordingly. 
+The trimmed reads file names must end in "_R1_PE_trimmed.fastq.gz" and "_R2_PE_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2) for the script to work. The script will utilize whatever text is in front of either "_R1(orR2)_PE_trimmed.fastq.gz" as the sample name. Alternatively, if your trimmed reads file names end with different text, the job file may also be modified accordingly. 
 
 ### Run BBmap on Hydra 
-After verifying your trimmed reads file names end with the appropriate text, save the job file below as "bbmap_interleaved.job" and run the job below on Hydra (qsub bbmap_interleaved.job) in the same directory as the trimmed reads files.
+Before running the script, enter the full path to the trimmed sequences after "SAMPLEDIR_TRM=" in the job file below.
+Verify that your trimmed reads file names end with the appropriate text, save the job file below as "bbmap_interleaved.job", and run the job below on Hydra (qsub bbmap_interleaved.job).
 
 When complete, the interleaved sequence files will be in a directory called "interleaved_sequences".
 
@@ -31,17 +32,26 @@ module load bioinformatics/bbmap
 #
 echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
 #
+# Create directory where interleaved sequences will be placed
 mkdir -p interleaved_sequences
-for GETSAMPLENAME in ./*_R1_PE_trimmed.fastq.gz
+
+# Create variable by copying full path to trimmed sequences
+SAMPLEDIR_TRM="path to trimmed sequences"
+
+# Use loop to generate a sample names for each sample and run BBmap 
+for GETSAMPLENAME in ${SAMPLEDIR_TRM}/*_R1_PE_trimmed.fastq.gz
 do
 SAMPLENAME=$(basename "$GETSAMPLENAME" _R1_PE_trimmed.fastq.gz)
-    reformat.sh \
-    in1="${SAMPLENAME}_R1_PE_trimmed.fastq.gz" \
-    in2="${SAMPLENAME}_R2_PE_trimmed.fastq.gz" \
-    out="./interleaved_sequences/${SAMPLENAME}_interleaved.fastq.gz"
+
+reformat.sh \
+in1="${SAMPLEDIR_TRM}/${SAMPLENAME}_R1_PE_trimmed.fastq.gz" \
+in2="${SAMPLEDIR_TRM}/${SAMPLENAME}_R2_PE_trimmed.fastq.gz" \
+out="./interleaved_sequences/${SAMPLENAME}_interleaved.fastq.gz"
 done
+
 #
 echo = `date` job $JOB_NAME done
+
 
 ```
 
@@ -49,20 +59,20 @@ echo = `date` job $JOB_NAME done
 ## Use interleaved sequence data created in Part 1 to assemble nuclear rDNA using MITObim in a loop
 link to MITObim - https://github.com/chrishah/MITObim
 ### File Preparation
-Create a fasta file (.fasta) with the seed used for assembling the gene of interest, and place it the same directory as the trimmed reads files. For nuclear ribosomal genes, partial or complete 18S or 28S sequences may be used. Depending on the taxon, using either 18S or 28S, MITObim may assemble the entire nuclear ribosomal operon, or may just assemble the single gene from the seed. 
+Create a fasta file (.fasta) with the seed used for assembling the gene of interest. For nuclear ribosomal genes, partial or complete 18S or 28S sequences may be used. Depending on the taxon, using either 18S or 28S, MITObim may assemble the entire nuclear ribosomal operon, or may just assemble the single gene from the seed. 
  
 ### Run MITObim on Hydra
-#### NOTE: The following MITObim commands in the job file must be modified before submitting to Hydra.
+#### NOTE: The following commands in the job file must be modified before submitting to Hydra.
+
+SAMPLEDIR_INT=
+
+Paste full path to the directory that contains the interleaved sequences after the "=".
 
 -ref name_of_project 
 
 change this to the name of your project.
 
---readpool "full path to"/interleaved_sequences/${SAMPLE}_interleaved.fastq.gz 
-
-change "full path to" with the path to the interleaved_sequences directory.
-
---quick "full path to to fasta file with seed" 
+--quick 
 
 paste the full path to the directory that contains the fasta file with the 18S or 28S seed.
 
@@ -70,7 +80,7 @@ paste the full path to the directory that contains the fasta file with the 18S o
 
 #### Note: Depending on how large you want your final contig, the number of iterations (--end) can be changed. Usually, 4 iterations is sufficient for complete 18S or 28S. However, more or less can be used depending on the taxon and data. The default is set to 4 here.
 
-Save the modified job below as "mitobim_loop.job" in the same directory that contains the trimmed reads files and submit the job on Hydra (qsub mitobim_loop.job).
+Save the modified job below as "mitobim_loop.job" and submit the job on Hydra (qsub mitobim_loop.job).
 
 When the job completes, there should be a separate folder labeled "mitobim_results" in the same directory as the job file. The final results for each sample will be in this directory. This final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". 
 
@@ -96,22 +106,33 @@ echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
 echo + NSLOTS = $NSLOTS
 #
 mkdir -p mitobim_results
-for GETSAMPLENAME in ./*_R1_PE_trimmed.fastq.gz
+
+# Create variable by pasting full path to directory with interleaved sequences
+SAMPLEDIR_INT="path to interleaved sequences"
+
+# Use loop to generate sample names for each sample  
+for GETSAMPLENAME in ${SAMPLEDIR_INT}/*_interleaved.fastq.gz
 do
-SAMPLENAME=$(basename "$GETSAMPLENAME" _R1_PE_trimmed.fastq.gz)
+SAMPLENAME=$(basename "$GETSAMPLENAME" _interleaved.fastq.gz)
+
+# Create sample-specific directories and move them to mitobim_results directory
 mkdir "${SAMPLENAME}_mitobim"
 mv ./"${SAMPLENAME}_mitobim" ./mitobim_results
 cd ./mitobim_results/"${SAMPLENAME}_mitobim" || exit
+
+# Run mitobim from sample-specific directories in a loop
 MITObim.pl \
 -sample "${SAMPLENAME}" \
 -ref name_of_project \
---readpool "full path to"/interleaved_sequences/${SAMPLENAME}_interleaved.fastq.gz \
+--readpool "${SAMPLEDIR_INT}"/${SAMPLENAME}_interleaved.fastq.gz \
 --quick "full path to to fasta file with seed" \
 --end 4 --pair --clean &> "log_${SAMPLENAME}"
 cd ../..
 done
+
 #
 echo = `date` job $JOB_NAME done
+
 
 ```
 
