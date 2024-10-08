@@ -146,12 +146,12 @@ When the MITObim loop is complete (Part 2), the final contigs and log files of e
 ```
 #!/bin/sh
 
-# Run this script in the same directory that contains the final mitobim output files (*_mitobim)
+# Run this script in the same directory that contains the final mitobim output files (mitobim_*)
 # Creates a directory named mitobim_logs_and_final_contigs
 mkdir -p mitobim_logs_and_final_contigs 
 
 # Iterates over files/directories with names ending in _mitobim in the current directory
-for mitobim_rename in *_mitobim; do
+for mitobim_rename in ./mitobim_*/*_mitobim; do
     # Prints the name of each file/directory being processed
     echo "Processing file: $mitobim_rename"
 
