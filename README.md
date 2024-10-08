@@ -148,22 +148,22 @@ When the MITObim loop is complete (Part 2), the final contigs and log files of e
 
 # Run this script in the same directory that contains the final mitobim output files (mitobim_*)
 # Creates a directory named mitobim_logs_and_final_contigs
-mkdir -p mitobim_logs_and_final_contigs 
+mkdir -p mitobim_final_renamed_contigs_and_logs 
 
 # Iterates over files/directories with names ending in _mitobim in the current directory
 for mitobim_rename in ./mitobim_*/*_mitobim; do
     # Prints the name of each file/directory being processed
     echo "Processing file: $mitobim_rename"
 
-    # Copies files matching the pattern to the mitobim_logs_and_final_contigs directory
-    cp ./${mitobim_rename}/iteration*/*_noIUPAC.fasta ./mitobim_logs_and_final_contigs
-    cp ./${mitobim_rename}/log_* ./mitobim_logs_and_final_contigs
+    # Copies files matching the pattern to the mitobim_final_renamed_contigs_and_logs directory
+    cp ./${mitobim_rename}/iteration*/*_noIUPAC.fasta ./mitobim_final_renamed_contigs_and_logs
+    cp ./${mitobim_rename}/log_* ./mitobim_final_renamed_contigs_and_logs
 done
 
 # Iterate over files in the directory
-for mitobim_internalrename in ./mitobim_logs_and_final_contigs/*_noIUPAC.fasta; do
+for mitobim_internalrename in ./mitobim_final_renamed_contigs_and_logs/*_noIUPAC.fasta; do
     # Extract filename without extension
-    filename=$(basename "$mitobim_internalrename" .fasta)
+    filename=$(basename "$mitobim_internalrename" _noIUPAC.fasta)
 
     # Perform internal rename substitution and deletion using awk
     awk -v fname="$filename" -F '>' '{if (NF > 1) print $1 ">" fname; else print}' "$mitobim_internalrename" > tmpfile && mv tmpfile "$mitobim_internalrename"
