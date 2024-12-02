@@ -1,11 +1,11 @@
 # Assemble nuclear rDNA (18S and 28S) from genomic data using BBmap and MITObim using a loop
-This workflow is in three parts. The first part will convert trimmed forward and reverse reads into a single interleaved file uisng BBmap. The second part will use the interleavd data and a user provided seed to assemble nuclear ribosomal sequences using MITObim. The third part will rename final conig files with sample IDs and pool them with the log files for each sample. 
+This workflow is in two parts. The first part will convert trimmed forward and reverse reads into single interleaved files uisng BBmap. The second part will use the interleaved data and a user provided seed to assemble nuclear ribosomal sequences using MITObim, rename the final contig files with sample IDs and save them to a new directory. 
 
 ## Part 1
 ## Convert trimmed reads into interleaved format using BBmap
 Link to BBmap site - https://sourceforge.net/projects/bbmap/
 ### File preparation
-The trimmed reads file names must end in "_R1_PE_trimmed.fastq.gz" and "_R2_PE_trimmed.fastq.gz" for the forward and reverse reads (R1 and R2) for the script to work. The script will utilize whatever text is in front of either "_R1(orR2)_PE_trimmed.fastq.gz" as the sample name. Alternatively, if your trimmed reads file names end with different text, the job file may also be modified accordingly. 
+The trimmed reads file names must end in "_R1_PE_trimmed.fastq.gz" and "_R2_PE_trimmed.fastq.gz" for the script to work. The script will utilize whatever text is in front of either "_R1(orR2)_PE_trimmed.fastq.gz" as the sample name. Alternatively, if your trimmed reads file names end with different text, the job file may also be modified accordingly. 
 
 ### Run BBmap on Hydra 
 Before running the script, enter the full path to the trimmed sequences after "SAMPLEDIR_TRM=" in the job file below.
@@ -80,9 +80,11 @@ After "--quick" paste the full path to the directory that contains the fasta fil
 
 #### Note: Depending on how large you want your final contig, the number of iterations (--end) can be changed. Usually, 4 iterations is sufficient for complete 18S or 28S. However, more or less can be used depending on the taxon and data. The default is set to 4 here.
 
-Save the modified job below as "mitobim_loop.job" and submit the job on Hydra (qsub mitobim_loop.job).
+At the end of the job file there is a script that will pull all final fasta contings (18S and/or 28S) and log files from the output directories, rename them with sample IDs, and copy them to a new directory named 'mitobim_final_renamed_contigs_and_logs'.
 
-When the job completes, there should be a separate folder labeled "mitobim_results" in the same directory as the job file. The final results for each sample will be in this directory. This final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". To rename and consolodate these files with the sample IDs, go to part 3.
+There will also be a separate directory labeled "mitobim_results" with raw final results for each sample. Here, the final assembled (18S or 28S) contig will be in the subdirectory with the last assigned interation (iteration4 by default) and end with "_noIUPAC.fasta". 
+
+To run the MITObim job, save the modified job below as "mitobim_loop.job" and submit the job on Hydra (qsub mitobim_loop.job).
 
 
 ```
@@ -130,27 +132,11 @@ MITObim.pl \
 cd ../..
 done
 
-#
-echo = `date` job $JOB_NAME done
-
-
-```
-
-## Part 3 (Extra) Pull all final fasta contings and log files from directories and rename them with sample IDs
-When the MITObim loop is complete (Part 2), the final contigs and log files of each sample will be in separate directories. This script will copy those files into a single directory and rename the final contig fasta files with SampleIDs.
-
-1. Save the script below as "mitobim_rename.sh" and run the shell script (sh mitobim_rename.sh) in the directory that contains the "mitobim_results" directory created in Part 2. Explanations of the script steps are given in the text of the script.
-
-2. Final renamed contigs files and log files will be copied to a directory called "mitobim_logs_and_final_contigs"
-
-```
-#!/bin/sh
-
-# Run this script in the same directory that contains the final mitobim output files (mitobim_*)
-# Creates a directory named mitobim_logs_and_final_contigs
+# Rename output files
+# Creates a directory named mitobim_final_renamed_contigs_and_logs
 mkdir -p mitobim_final_renamed_contigs_and_logs 
 
-# Iterates over files/directories with names ending in _mitobim in the current directory
+# Iterates over files/directories from mitobim outputs in the current directory
 for mitobim_rename in ./mitobim_*/*_mitobim; do
     # Prints the name of each file/directory being processed
     echo "Processing file: $mitobim_rename"
@@ -173,7 +159,10 @@ echo "Final renamed contigs and logs should be in directory named 'mitobim_final
 echo "Check for any errors/warnings printed to screen"
 echo "Done"
 
-exit
+#
+echo = `date` job $JOB_NAME done
+
 
 ```
+
 
