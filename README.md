@@ -39,7 +39,7 @@ mkdir -p interleaved_sequences
 SAMPLEDIR_TRM="full path to trimmed sequences"
 
 # Create variable by copying full path to the base directory.
-# This is where the output directory will be located.
+# This is where the job file is located and where the output directory will be created.
 SAMPLEDIR_BASE="full path to base directory"
 
 # Use loop to generate a sample names for each sample and run BBmap 
