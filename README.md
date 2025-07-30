@@ -36,7 +36,11 @@ echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
 mkdir -p interleaved_sequences
 
 # Create variable by copying full path to trimmed sequences
-SAMPLEDIR_TRM="path to trimmed sequences"
+SAMPLEDIR_TRM="full path to trimmed sequences"
+
+# Create variable by copying full path to the base directory.
+# This is where the output directory will be located.
+SAMPLEDIR_BASE="full path to base directory"
 
 # Use loop to generate a sample names for each sample and run BBmap 
 for GETSAMPLENAME in ${SAMPLEDIR_TRM}/*_R1_PE_trimmed.fastq.gz
@@ -46,7 +50,7 @@ SAMPLENAME=$(basename "$GETSAMPLENAME" _R1_PE_trimmed.fastq.gz)
 reformat.sh \
 in1="${SAMPLEDIR_TRM}/${SAMPLENAME}_R1_PE_trimmed.fastq.gz" \
 in2="${SAMPLEDIR_TRM}/${SAMPLENAME}_R2_PE_trimmed.fastq.gz" \
-out="./interleaved_sequences/${SAMPLENAME}_interleaved.fastq.gz"
+out="${SAMPLEDIR_BASE}/interleaved_sequences/${SAMPLENAME}_interleaved.fastq.gz"
 done
 
 #
