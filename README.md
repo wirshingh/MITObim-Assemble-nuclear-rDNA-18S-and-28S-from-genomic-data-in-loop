@@ -8,8 +8,13 @@ Link to BBmap site - https://sourceforge.net/projects/bbmap/
 The trimmed reads file names must end in "_R1_PE_trimmed.fastq.gz" and "_R2_PE_trimmed.fastq.gz" for the script to work. The script will utilize whatever text is in front of either "_R1(orR2)_PE_trimmed.fastq.gz" as the sample name. Alternatively, if your trimmed reads file names end with different text, the job file may also be modified accordingly. 
 
 ### Run BBmap on Hydra 
-Before running the script, enter the full path to the trimmed sequences after "SAMPLEDIR_TRM=" in the job file below.
-Verify that your trimmed reads file names end with the appropriate text, save the job file below as "bbmap_interleaved.job", and run the job below on Hydra (qsub bbmap_interleaved.job).
+Before running the script, enter the full path to the trimmed sequences directory after "SAMPLEDIR_TRM=" in the job file below.
+Verify that your trimmed reads file names end with the appropriate text.
+
+Next, enter the full path the base directory after "SAMPLEDIR_BASE=".
+This is where the job file will be run (chosen by the user) and the output directories created.
+
+Save the job file below as "bbmap_interleaved.job", and run the job below on Hydra (qsub bbmap_interleaved.job).
 
 When complete, the interleaved sequence files will be in a directory called "interleaved_sequences".
 
