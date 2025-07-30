@@ -83,7 +83,7 @@ change "name_of_project" to the name of your project.
 
 --quick 
 
-After "--quick" paste the full path to the directory that contains the fasta file with the 18S or 28S seed.
+After "--quick" paste the full path to the fasta file with the 18S or 28S seed (include the file name of the fasta file).
 
 --end 4 
 
