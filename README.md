@@ -100,9 +100,9 @@ To run the MITObim job, save the modified job below as "mitobim_loop.job" and su
 # /bin/sh
 # ----------------Parameters---------------------- #
 #$ -S /bin/sh
-#$ -pe mthread 3
+#$ -pe mthread 6
 #$ -q mThC.q
-#$ -l mres=12G,h_data=4G,h_vmem=4G
+#$ -l mres=24G,h_data=4G,h_vmem=4G
 #$ -cwd
 #$ -j y
 #$ -N mitobim_loop.job
